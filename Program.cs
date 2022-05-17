@@ -1,37 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using LabManager.Database;
 using Microsoft.Data.Sqlite;
 
-var connection = new SqliteConnection("Data Source=database.db");
-connection.Open();
+var databaseConfig = new DatabaseConfig();
+ new DatabaseSetup(databaseConfig);
 
-var command = connection.CreateCommand();
-command.CommandText = @"
-
-CREATE TABLE IF NOT EXISTS Computers(
-    id int not null primary key,
-    ram varchar(100) not null,
-    processor varchar(100) not null
-);
-
-
-
-";
-
-
-command.CommandText = @"
-
-CREATE TABLE IF NOT EXISTS Lab(
-    id int not null primary key,
-    number varchar(100) not null,
-    name varchar(100) not null,
-    block varchar(100) not null);
-    
-    
-    ";
-
-command.ExecuteNonQuery();
-
-connection.Close();
 
 Console.WriteLine(args);
 
@@ -47,9 +20,9 @@ if(modelName == "Computer")
 {
     if(modelAction == "List")
     {
-         connection = new SqliteConnection("Data Source=database.db");
+         var connection = new SqliteConnection("Data Source=database.db");
          connection.Open();
-         command = connection.CreateCommand();
+         var command = connection.CreateCommand();
          command.CommandText = "SELECT * FROM Computers;";
 
          var reader = command.ExecuteReader();
@@ -66,7 +39,7 @@ if(modelName == "Computer")
     }
         if(modelAction == "New")
     {
-       connection = new SqliteConnection("Data Source=database.db");
+      var connection = new SqliteConnection("Data Source=database.db");
 
        connection.Open();
 
@@ -75,7 +48,7 @@ if(modelName == "Computer")
         string ram = args[3];
         string processor = args[4];
 
-        command = connection.CreateCommand();
+        var command = connection.CreateCommand();
         command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processor)";
         command.Parameters.AddWithValue("$id", id);
         command.Parameters.AddWithValue("$ram", ram);
