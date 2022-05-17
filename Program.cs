@@ -5,6 +5,11 @@ using Microsoft.Data.Sqlite;
 var databaseConfig = new DatabaseConfig();
  new DatabaseSetup(databaseConfig);
 
+ var ComputerRepository = new ComputerRepository();
+ new DatabaseSetup(databaseConfig);
+
+ var computerRepository = new ComputerRepository(databaseConfig);
+
 
 Console.WriteLine(args);
 
@@ -20,13 +25,11 @@ if(modelName == "Computer")
 {
     if(modelAction == "List")
     {
-         var connection = new SqliteConnection("Data Source=database.db");
-         connection.Open();
-         var command = connection.CreateCommand();
-         command.CommandText = "SELECT * FROM Computers;";
-
-         var reader = command.ExecuteReader();
-
+        Console.WriteLine("Computer List");
+        foreach (var computer in computerRepository.GetAll())
+        {
+            Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
+        }
          while(reader.Read())
          {
              Console.WriteLine("Computer List");
