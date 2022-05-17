@@ -279,24 +279,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Familia Pereira\\.nuget\\packages\\": {}
+    "C:\\Users\\IFSP\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Familia Pereira\\Desktop\\Labmanager\\Labmanager\\labmanager.csproj",
+      "projectUniqueName": "C:\\Users\\IFSP\\Desktop\\MEDELLIN\\labmanager\\labmanager.csproj",
       "projectName": "labmanager",
-      "projectPath": "C:\\Users\\Familia Pereira\\Desktop\\Labmanager\\Labmanager\\labmanager.csproj",
-      "packagesPath": "C:\\Users\\Familia Pereira\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Familia Pereira\\Desktop\\Labmanager\\Labmanager\\obj\\",
+      "projectPath": "C:\\Users\\IFSP\\Desktop\\MEDELLIN\\labmanager\\labmanager.csproj",
+      "packagesPath": "C:\\Users\\IFSP\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\IFSP\\Desktop\\MEDELLIN\\labmanager\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Familia Pereira\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\IFSP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -335,7 +341,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
