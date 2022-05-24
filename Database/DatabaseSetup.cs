@@ -1,4 +1,6 @@
-namespace LabManager.Darabase;
+using Microsoft.Data.Sqlite;
+
+namespace LabManager.Database;
 
 class DatabaseSetup
 {
@@ -7,10 +9,11 @@ class DatabaseSetup
     public DatabaseSetup(DatabaseConfig databaseConfig)
     {
         this.databaseConfig = databaseConfig;
-        CreateComputerTable();
+        CreateTableComputer();
     }
-    public void CreateComputerTable()
+    private void CreateTableComputer()
     {
+        var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
 var command = connection.CreateCommand();
@@ -25,11 +28,18 @@ CREATE TABLE IF NOT EXISTS Computers(
 
 
 ";
+command.ExecuteNonQuery();
+connection.Close();
+    }
 
-var command = connection.CreateCommand();
-command.CommandText = @"
+    private void CreateTableLab()
+    {
+        var connection = new SqliteConnection("Data Source=database.db");
+        connection.Open();
 
-CREATE TABLE IF NOT EXISTS Lab(
+        var command = connection.CreateCommand();
+        command.CommandText = @"
+        CREATE TABLE IF NOT EXISTS Lab(
     id int not null primary key,
     number varchar(100) not null,
     name varchar(100) not null,
@@ -37,13 +47,12 @@ CREATE TABLE IF NOT EXISTS Lab(
     
     
     ";
-
-
-command.ExecuteNonQuery();
-
-connection.Close();
+    command.ExecuteNonQuery();
+    connection.Close();
     }
-}
+
+ }
+
 
 
 
