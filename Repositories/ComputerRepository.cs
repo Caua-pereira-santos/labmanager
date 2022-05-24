@@ -54,6 +54,8 @@ public void Save(Computer computer)
 
         command.ExecuteNonQuery();
         connection.Close();
+
+        return computer;
 }
   
 }
