@@ -16,7 +16,7 @@ class DatabaseSetup
         var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
-var command = connection.CreateCommand();
+var command = connection.CreateCommand(); //cria uma tabela Computers
 command.CommandText = @"
 
 CREATE TABLE IF NOT EXISTS Computers(
@@ -37,7 +37,7 @@ connection.Close();
         var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
-        var command = connection.CreateCommand();
+        var command = connection.CreateCommand(); //Cria uma tabela Lab
         command.CommandText = @"
         CREATE TABLE IF NOT EXISTS Lab(
     id int not null primary key,
