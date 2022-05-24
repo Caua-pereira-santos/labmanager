@@ -8,6 +8,7 @@ var modelAction = args[1];
 
 var databaseConfig = new DatabaseConfig();
 var computerRepository = new ComputerRepository(databaseConfig);
+var LabRepository = new LabRepository(databaseConfig);
 
 if(modelName == "Computer")
 {
@@ -71,4 +72,28 @@ if(modelName == "Lab")
         command.ExecuteNonQuery();
         connection.Close();
     }
+
+    
 }
+
+if(modelName == "Lab")
+{
+    if(modelAction == "List")
+    {
+      Console.WriteLine("Lab List");
+      foreach (var lab in LabRepository.GetAll())
+      {
+          var message = $"{lab.Id}, {lab.Number}, {lab.Name}, {lab.Block}";
+          Console.WriteLine(message);
+      }
+    }
+
+    if(modelAction == "New")
+    {
+        
+    }
+
+
+}
+
+//Fazer os ifs relacionados aos métodos que eu criei em ComputerRepository aqui em Program.cs

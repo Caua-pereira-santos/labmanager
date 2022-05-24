@@ -56,6 +56,8 @@ public void Save(Computer computer)
         connection.Close();
 
         return computer;
+
+        //Toda a tarefa é para ser feita no ComputerRepository ouuu aquii
 }
   
 }

@@ -10,6 +10,7 @@ class DatabaseSetup
     {
         this.databaseConfig = databaseConfig;
         CreateTableComputer();
+        CreateLabTable();
     }
     private void CreateTableComputer()
     {
@@ -32,16 +33,16 @@ command.ExecuteNonQuery();
 connection.Close();
     }
 
-    private void CreateTableLab()
+    private void CreateLabTable()
     {
-        var connection = new SqliteConnection("Data Source=database.db");
+        var connection = new SqliteConnection(databaseConfig.ConnectionString);
         connection.Open();
 
         var command = connection.CreateCommand(); //Cria uma tabela Lab
         command.CommandText = @"
         CREATE TABLE IF NOT EXISTS Lab(
     id int not null primary key,
-    number varchar(100) not null,
+    number int  not null,
     name varchar(100) not null,
     block varchar(100) not null);
     
