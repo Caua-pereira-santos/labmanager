@@ -71,4 +71,24 @@ if(modelName == "Lab")
         command.ExecuteNonQuery();
         connection.Close();
     }
+
+    if (modelAction == "Update")
+    {
+        Console.WriteLine("Computer Update");
+        var ram = args[3];
+        var processor = args[4];
+
+        var computer = new Computer(id, ram, processor);
+        computerRepository.Update(computer);
+        Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
+    }
+
+    if(modelAction == "DELETE")
+    {
+        Console.WriteLine("Computer Delete");
+        var id = Convert.ToInt32(args[2]);
+
+        computerRepository.Delete(id);
+        Console.WriteLine("Computer {0}", id);
+    }
 }
