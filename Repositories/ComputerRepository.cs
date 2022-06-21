@@ -7,47 +7,44 @@ namespace LabManager.Repositories;
 
 class ComputerRepository
 {
-    private DatabaseConfig databaseConfig;
-
+    private readonly DatabaseConfig _databaseConfig;
+    
     public ComputerRepository(DatabaseConfig databaseConfig)
     {
-        this.databaseConfig = databaseConfig;
+        _databaseConfig = databaseConfig;
     }
 
     public List<Computer> GetAll()
 
     {
-        var connection = new SqliteConnection("Data Source=database.db");
-         connection.Open();
-         var command = connection.CreateCommand();
-         command.CommandText = "SELECT * FROM Computers;";
+        var computers = new List<Computer>();
 
-         var reader = command.ExecuteReader();
-
-         var computers = new List<Computer>();
-
-         while(reader.Read())
-         {
-             var computer = new Computer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-             computers.Add(computer);
-             
-             
-         }
-
-         
-         connection.Close();
-
-         return computers;
-    }
-
-public void Save(Computer computer)
-{
-    var connection = new SqliteConnection("Data Source=database.db");
+        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Computers VALUES ($id, $ram, $processor);"
-        ;
+        command.CommandText = "SELECT * FROM Computers;";
+
+        var reader = command.ExecuteReader();
+        
+        while(reader.Read())
+        {
+            var computer = ReaderToComputer(reader);
+            computers.Add(computer);
+        }
+        
+        connection.Close();
+        
+        return computers;
+    }
+
+public Computer Save(Computer computer)
+{
+    var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "INSERT INTO Computers VALUES ($id, $ram, $processor);";
         command.Parameters.AddWithValue("$id", computer.Id);
         command.Parameters.AddWithValue("$ram", computer.Ram);
         command.Parameters.AddWithValue("$processor", computer.Processor);
@@ -58,9 +55,9 @@ public void Save(Computer computer)
         return computer;
 } 
 
-ComputerRepository GetId(int id)
+public Computer GetById(int id)
 {
-    var connection = new sqliteConnection(databaseConfig.ConnectionString);
+    var connection = new SqliteConnection(_databaseConfig.ConnectionString);
     connection.Open();
 
     var command = connection.CreateCommand();
@@ -69,7 +66,8 @@ ComputerRepository GetId(int id)
 
     var reader = command.ExecuteReader();
     reader.Read();
-    var computer = new ComputerRepository(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+
+    var computer = ReaderToComputer(reader);
 
     connection.Close();
     return computer;
@@ -77,7 +75,7 @@ ComputerRepository GetId(int id)
 
 public void Delete(int id)
 {
-    var connection = new sqliteConnection(databaseConfig.ConnectionString);
+    var connection = new SqliteConnection(_databaseConfig.ConnectionString);
     connection.Open();
 
     var command = connection.CreateCommand();
@@ -88,9 +86,9 @@ public void Delete(int id)
     connection.Close();
 }
 
-public Comput Update(Computer computer)
+public Computer Update(Computer computer)
 {
-    var connection = new sqliteConnection(databaseConfig.connectionString);
+    var connection = new SqliteConnection(_databaseConfig.ConnectionString);
     connection.Open();
 
     var command = connection.CreateCommand();
@@ -102,6 +100,27 @@ public Comput Update(Computer computer)
 
     command.ExecuteNonQuery();
     connection.Close();
+
+    return computer;
+}
+
+public bool ExitsById(int id)
+{
+    var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+    connection.Open();
+
+    var command = connection.CreateCommand();
+    command.CommandText = "SELECT count(id) FROM Computers WHERE id = $id;";
+    command.Parameters.AddWithValue("$id", id);
+
+    var result = Convert.ToBoolean(command.ExecuteScalar());
+
+    return result;
+}
+
+private Computer ReaderToComputer(SqliteDataReader reader)
+{
+    var computer = new Computer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
 
     return computer;
 }
