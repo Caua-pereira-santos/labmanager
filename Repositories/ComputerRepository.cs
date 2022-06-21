@@ -14,26 +14,32 @@ class ComputerRepository
         _databaseConfig = databaseConfig;
     }
 
-    public List<Computer> GetAll()
+    public IEnumerable<Computer> GetAll()
+    //Antes do IE estava List
 
     {
-        var computers = new List<Computer>();
 
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);
-        connection.Open();
+    
+       // var computers = new List<Computer>();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "SELECT * FROM Computers;";
+        //var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+       connection.Open();
 
-        var reader = command.ExecuteReader();
+       var computers = connection.Query<Computer>("SELECT * FROM Computers");
+
+      //  var command = connection.CreateCommand();
+       // command.CommandText = "SELECT * FROM Computers;";
+
+        //var reader = command.ExecuteReader();
         
-        while(reader.Read())
-        {
-            var computer = ReaderToComputer(reader);
-            computers.Add(computer);
-        }
+       // while(reader.Read())
+      //  {
+          //  var computer = ReaderToComputer(reader);
+          //  computers.Add(computer);
+     //   }
         
-        connection.Close();
+      // connection.Close();
         
         return computers;
     }
@@ -43,13 +49,15 @@ public Computer Save(Computer computer)
     var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Computers VALUES ($id, $ram, $processor);";
-        command.Parameters.AddWithValue("$id", computer.Id);
-        command.Parameters.AddWithValue("$ram", computer.Ram);
-        command.Parameters.AddWithValue("$processor", computer.Processor);
+        connection.Execute("INSERT INTO Computers VALUES (@Id, @Ram, @Processor)", computer);
 
-        command.ExecuteNonQuery();
+       // var command = connection.CreateCommand();
+       // command.CommandText = "INSERT INTO Computers VALUES ($id, $ram, $processor);";
+        //command.Parameters.AddWithValue("$id", computer.Id);
+        //command.Parameters.AddWithValue("$ram", computer.Ram);
+       // command.Parameters.AddWithValue("$processor", computer.Processor);
+
+        //command.ExecuteNonQuery(); 
         connection.Close();
 
         return computer;
